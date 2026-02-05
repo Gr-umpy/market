@@ -67,12 +67,6 @@ new class extends Component
                     <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
                 @enderror
             </div>
-            <div class="py-2 flex items-start gap-3">
-                <label for="category">Catégorie :</label>
-                @error('category')
-                    <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
-                @enderror
-            </div>
 
             <x-submit-button color="green">Crée le produit</x-submit-button>
         </form>
