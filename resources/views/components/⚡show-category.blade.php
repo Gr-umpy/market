@@ -2,12 +2,18 @@
 
 use Livewire\WithPagination;
 
+use Livewire\Attributes\Validate;
 use App\Models\Category;
 use Livewire\Component;
 
 new class extends Component
 {
     use WithPagination;
+
+    public ?int $editingId = null;
+    #[Validate('required|min:3|max:255|unique:categories,name')]
+    public string $editingName = '';
+
     public bool $showTable = false;
 
     protected $listeners = ['categoryCreated' => '$refresh'];
@@ -21,6 +27,26 @@ new class extends Component
         $this->showTable = $categories->isNotEmpty();
 
         return view('components.⚡show-category', ['categories' => $categories]);
+    }
+
+    public function edit(Category $category)
+    {
+        $this->editingId = $category->id;
+        $this->editingName = $category->name;
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        Category::find($this->editingId)->update(['name' => $this->editingName]);
+        $this->cancelEdit();
+    }
+
+    public function cancelEdit()
+    {
+        $this->editingId = null;
+        $this->editingName = '';
     }
 
     public function delete(Category $category)
@@ -44,7 +70,31 @@ new class extends Component
 
         <tr class="bg-blue-400/10 even:bg-blue-400/20">
             <td class="py-1 text-center border-b border-gray-400/50">
-                {{ $category->name }}
+                @if ($editingId === $category->id)
+                    <form wire:submit.prevent="update" class="flex items-center justify-center gap-1">
+                        <input type="text" wire:model.live="editingName" 
+                               class="px-2 border rounded text-center"
+                               autofocus>
+                        @error('editingName')
+                            <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
+                        @enderror
+                        <button type="submit" class="text-green-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <button type="button" wire:click="cancelEdit" class="text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path
+                                    d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                            </svg>
+                        </button>
+                    </form>
+                @else
+                    {{ $category->name }}
+                @endif
             </td>
             <td class="py-1 border-b border-gray-400/50">
                 <div class="flex place-content-center">
