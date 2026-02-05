@@ -12,8 +12,6 @@ new class extends Component
     public string $name = '';
     #[Validate('required|min:3|max:1023|unique:products,name')]
     public string $description = '';
-    #[Validate('required|int')]
-    public ?int $category_id = null;
 
     public ?int $user_id = null;
 
@@ -38,9 +36,8 @@ new class extends Component
             'description' => $this->description,
             'user_id' => $this->user_id
         ]);
-        $product->categories()->toggle($this->category_id);
 
-        $this->reset(['name', 'description', 'user_id', 'category_id']);
+        $this->reset(['name', 'description', 'user_id']);
         $this->showModal = false;
         $this->dispatch('productCreated');
     }
@@ -72,11 +69,6 @@ new class extends Component
             </div>
             <div class="py-2 flex items-start gap-3">
                 <label for="category">Catégorie :</label>
-                <select wire:model='category_id'>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
                 @error('category')
                     <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
                 @enderror
