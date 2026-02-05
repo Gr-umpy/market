@@ -2,5 +2,6 @@
     <x-slot:heading>
         Catégories
     </x-slot:heading>
-    test
+    <livewire:create-category/>
+    <livewire:show-category/>
 </x-layout>
