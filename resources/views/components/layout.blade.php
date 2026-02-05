@@ -16,7 +16,7 @@
               <div class="hidden md:block">
                 <div class="flex items-baseline space-x-4">
                     <x-nav-link href="{{ route('home') }}" :active="request()->is('/')">Accueil</x-nav-link>
-                    <x-nav-link href="{{ route('category') }}" :active="request()->is('catégories')">Catégories</x-nav-link>
+                    <x-nav-link href="{{ route('categories') }}" :active="request()->is('catégories')">Catégories</x-nav-link>
                 </div>
               </div>
             </div>

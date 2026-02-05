@@ -4,7 +4,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'market')->name('home');
-Route::view('/catégories', 'category')->name('category');
+Route::view('/catégories', 'categories')->name('categories');
 Route::view('/panier', 'cart')->name('cart');
 
 Route::controller(LoginController::class)->name('login.')->group(function () {
