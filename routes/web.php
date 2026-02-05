@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('market');
-})->name('home');
-Route::get('/catégories', function () {
-    return view('category');
-})->name('category');
-Route::get('/panier', function () {
-    return view('cart');
-})->name('cart');
+Route::view('/', 'market')->name('home');
+Route::view('/catégories', 'category')->name('category');
+Route::view('/panier', 'cart')->name('cart');
+
+Route::controller(LoginController::class)->name('login.')->group(function () {
+        Route::get('connexion', 'show')->name('show');
+        Route::post('connexion/login', 'login')->name('login');
+        Route::post('connexion/logout', 'logout')->name('logout');
+    });

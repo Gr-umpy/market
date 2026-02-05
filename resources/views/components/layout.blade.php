@@ -23,6 +23,13 @@
             <div class="flex items-center">
               <div class="hidden md:block">
                 <div class="flex items-baseline space-x-4">
+                  <x-nav-link href="{{ route('login.show') }}" :active="request()->is('connexion')">
+                    @auth
+                      Se déconnecter
+                    @else  
+                      Se connecter
+                    @endauth
+                  </x-nav-link>
                   <a href="{{ route('cart') }}" class="self-center">
                     @if (request()->is('panier'))
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -42,6 +49,15 @@
             </div>
           </div>
       </nav>
+      <header
+        class="relative bg-stone-700/70 after:pointer-events-none after:absolute after:inset-x-0 after:inset-y-0 after:border-y after:border-white/10">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
+          <h1 class="text-3xl font-bold tracking-tight text-white">{{ $heading }}</h1>
+          @if (isset($button))
+            <div class="flex gap-1 items-center">{{ $button }}</div>
+          @endif
+        </div>
+      </header>
       <main>
         <div class="mx-auto max-w-7xl px-2 py-6 sm:px-3 lg:px-4">
           {{ $slot }}
