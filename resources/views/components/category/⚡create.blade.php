@@ -42,7 +42,6 @@ new class extends Component
             </div>
     
             <x-submit-button color="green">Crée la catégorie</x-submit-button>
-            <div class="py-2"></div>
         </form>
     </x-livewire-modal>
 
