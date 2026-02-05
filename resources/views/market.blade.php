@@ -2,5 +2,5 @@
     <x-slot:heading>
         Accueil
     </x-slot:heading>
-    test
+    <livewire:product.create/>
 </x-layout>
