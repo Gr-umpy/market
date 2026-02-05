@@ -75,9 +75,6 @@ new class extends Component
                         <input type="text" wire:model.live="editingName" 
                                class="px-2 border rounded text-center"
                                autofocus>
-                        @error('editingName')
-                            <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
-                        @enderror
                         <button type="submit" class="text-green-600">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                                 <path fill-rule="evenodd"
@@ -91,6 +88,9 @@ new class extends Component
                                     d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                             </svg>
                         </button>
+                        @error('editingName')
+                            <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
+                        @enderror
                     </form>
                 @else
                     {{ $category->name }}
