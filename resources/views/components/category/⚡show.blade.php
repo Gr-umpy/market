@@ -26,7 +26,7 @@ new class extends Component
 
         $this->showTable = $categories->isNotEmpty();
 
-        return view('components.⚡show-category', ['categories' => $categories]);
+        return view('components.category.⚡show', ['categories' => $categories]);
     }
 
     public function edit(Category $category)
