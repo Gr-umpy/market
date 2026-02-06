@@ -27,7 +27,7 @@ new class extends Component
 
     public function render()
     {
-        $products = Product::with('user')
+        $products = Product::with(['user', 'category'])
             ->latest()
             ->paginate(15);
 
@@ -53,7 +53,13 @@ new class extends Component
             'editingName' => 'required|min:3|max:255|unique:products,name,'.$this->editingId,
         ]);
 
-        Product::find($this->editingId)->update(['name' => $this->editingName, 'category_id' => $this->editingCategory_id]);
+        $product = Product::find($this->editingId);
+        
+        if ($product->category_id !== $this->editingCategory_id) {
+            $product->subcategories()->detach();
+        }
+        
+        $product->update(['name' => $this->editingName, 'category_id' => $this->editingCategory_id]);
 
         $this->dispatch('productUpdated');
         $this->cancelEdit();
