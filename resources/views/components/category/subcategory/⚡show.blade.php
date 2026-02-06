@@ -16,7 +16,11 @@ new class extends Component
 
     public bool $showTable = false;
 
-    protected $listeners = ['subcategoryCreated' => '$refresh'];
+    protected $listeners = [
+        'subcategoryCreated' => '$refresh',
+        'categoryDeleted' => '$refresh',
+        'categoryUpdated' => '$refresh'
+        ];
 
     public function render()
     {

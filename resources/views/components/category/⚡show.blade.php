@@ -16,7 +16,10 @@ new class extends Component
 
     public bool $showTable = false;
 
-    protected $listeners = ['categoryCreated' => '$refresh'];
+    protected $listeners = [
+        'categoryCreated' => '$refresh',
+        'categoryDeleted' => '$refresh',
+        ];
 
     public function render()
     {
@@ -29,16 +32,17 @@ new class extends Component
         return $this->view(['categories' => $categories]);
     }
 
+    public function addSubcategory(Category $category)
+    {
+        $category_id = $category->id;
+        $category_name = $category->name;
+        $this->dispatch('OpenSub', $category_id, $category_name);
+    }
+
     public function edit(Category $category)
     {
         $this->editingId = $category->id;
         $this->editingName = $category->name;
-    }
-
-    public function addSubcategory(Category $category) {
-        $category_id = $category->id;
-        $category_name = $category->name;
-        $this->dispatch('OpenSub', $category_id, $category_name);
     }
 
     public function update()
@@ -46,6 +50,8 @@ new class extends Component
         $this->validate();
 
         Category::find($this->editingId)->update(['name' => $this->editingName]);
+
+        $this->dispatch('categoryUpdated');
         $this->cancelEdit();
     }
 
@@ -58,7 +64,7 @@ new class extends Component
     public function delete(Category $category)
     {
         $category->delete();
-        $this->resetPage();
+        $this->dispatch('categoryDeleted');
     }
 };
 ?>
