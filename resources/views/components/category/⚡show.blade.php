@@ -24,7 +24,7 @@ new class extends Component
 
     public function render()
     {
-        $categories = Category::query()
+        $categories = Category::with('category')
             ->latest()
             ->paginate(15);
 
