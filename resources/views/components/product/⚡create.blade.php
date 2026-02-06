@@ -12,6 +12,8 @@ new class extends Component
     public string $name = '';
     #[Validate('required|min:3|max:1023|unique:products,name')]
     public string $description = '';
+    #[Validate('required|int')]
+    public ?int $category_id = null;
 
     public ?int $user_id = null;
 
@@ -34,10 +36,11 @@ new class extends Component
         $product = Product::create([
             'name' => $this->name,
             'description' => $this->description,
-            'user_id' => $this->user_id
+            'user_id' => $this->user_id,
+            'category_id' => $this->category_id
         ]);
 
-        $this->reset(['name', 'description', 'user_id']);
+        $this->reset(['name', 'description', 'user_id', 'category_id']);
         $this->showModal = false;
         $this->dispatch('productCreated');
     }
@@ -64,6 +67,17 @@ new class extends Component
                 <textarea id="description" name="description" wire:model.live="description" required rows="2" cols="50"
                     class="flex-1 rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500" ></textarea>
                 @error('description')
+                    <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="py-2 flex items-start gap-3">
+                <label for="category">Catégorie :</label>
+                <select wire:model='category_id'>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category')
                     <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
                 @enderror
             </div>
