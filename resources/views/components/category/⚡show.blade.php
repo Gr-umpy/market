@@ -19,7 +19,8 @@ new class extends Component
     protected $listeners = [
         'categoryCreated' => '$refresh',
         'categoryDeleted' => '$refresh',
-        ];
+        'subcategoryCreated' => '$refresh'
+    ];
 
     public function render()
     {
@@ -69,11 +70,13 @@ new class extends Component
 };
 ?>
 <div>
-    <h1 class="text-center">Catégories :</h1>
     <table class="w-full" wire:show='showTable'>
         <tr>
-            <th>
+            <th class="w-5/11">
                 Titre
+            </th>
+            <th class="w-5/11">
+                Categorie mère
             </th>
             <th class="w-20">
                 Actions
@@ -107,6 +110,13 @@ new class extends Component
                         </form>
                     @else
                         {{ $category->name }}
+                    @endif
+                </td>
+                <td class="py-1 text-center border-b border-gray-400/50">
+                    @if ($category->category_id)
+                        {{ $category->category->name }}
+                    @else
+                        Cette catégorie est seulement une catégorie mère
                     @endif
                 </td>
                 <td class="py-1 border-b border-gray-400/50">
@@ -143,6 +153,5 @@ new class extends Component
     </div>
 
     <livewire:category.subcategory.create/>
-    <livewire:category.subcategory.show/>
 
 </div>

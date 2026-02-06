@@ -14,9 +14,6 @@ new class extends Component
     #[Validate('required|min:3|max:255')]
     public string $editingName = '';
 
-    #[Validate('required|exists:categories,id')]
-    public ?int $editingCategory_id = null;
-
     public bool $showTable = false;
 
     protected $listeners = [
@@ -27,22 +24,19 @@ new class extends Component
 
     public function render()
     {
-        $products = Product::with(['user', 'category'])
+        $products = Product::with(['user'])
             ->latest()
             ->paginate(15);
 
-        $categories = \App\Models\Category::all();
-
         $this->showTable = $products->isNotEmpty();
 
-        return $this->view(['products' => $products, 'categories' => $categories]);
+        return $this->view(['products' => $products]);
     }
 
     public function edit(Product $product)
     {
         $this->editingId = $product->id;
         $this->editingName = $product->name;
-        $this->editingCategory_id = $product->category->id;
     }
 
     public function update()
@@ -55,11 +49,8 @@ new class extends Component
 
         $product = Product::find($this->editingId);
         
-        if ($product->category_id !== $this->editingCategory_id) {
-            $product->subcategories()->detach();
-        }
         
-        $product->update(['name' => $this->editingName, 'category_id' => $this->editingCategory_id]);
+        $product->update(['name' => $this->editingName]);
 
         $this->dispatch('productUpdated');
         $this->cancelEdit();
@@ -69,7 +60,6 @@ new class extends Component
     {
         $this->editingId = null;
         $this->editingName = '';
-        $this->editingCategory_id = null;
     }
 
     public function delete(Product $product)
@@ -81,7 +71,6 @@ new class extends Component
 ?>
 
 <div>
-    <h1 class="text-center py-1">Tous les produits :</h1>
     <table class="w-full" wire:show='showTable'>
         <tr>
             <th>
@@ -89,9 +78,6 @@ new class extends Component
             </th>
             <th>
                 description
-            </th>
-            <th>
-                Catégorie
             </th>
             <th>
                 Vendeur
@@ -107,27 +93,6 @@ new class extends Component
                     @if ($editingId === $product->id)
                         <form wire:submit.prevent="update" class="flex items-center justify-center gap-1">
                             <input type="text" wire:model.live="editingName" class="px-2 border rounded text-center" autofocus>
-                            @error('editingName')
-                                <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
-                            @enderror
-                        </form>
-                    @else
-                        {{ $product->name }}
-                    @endif
-                </td>
-                <td class="py-1 text-center border-b border-gray-400/50">
-                    {{ Str::limit($product->description, 100) }}
-                </td>
-                <td class="py-1 text-center border-b border-gray-400/50">
-                    @if ($editingId === $product->id)
-                        <form wire:submit.prevent="update" class="flex items-center justify-center gap-1">
-                            <select wire:model.live="editingCategory_id" class="px-2 border rounded text-center" autofocus>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $editingCategory_id == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
                             <button type="submit" class="text-green-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                                     <path fill-rule="evenodd"
@@ -141,13 +106,16 @@ new class extends Component
                                         d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                 </svg>
                             </button>
-                            @error('editingCategory_id')
+                            @error('editingName')
                                 <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
                             @enderror
                         </form>
                     @else
-                        {{ $product->category->name }}
+                        {{ $product->name }}
                     @endif
+                </td>
+                <td class="py-1 text-center border-b border-gray-400/50">
+                    {{ Str::limit($product->description, 100) }}
                 </td>
                 <td class="py-1 text-center border-b border-gray-400/50">
                     {{ $product->user->name }}

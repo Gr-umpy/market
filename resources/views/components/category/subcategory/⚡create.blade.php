@@ -3,7 +3,7 @@
 
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\On;
-use App\Models\Subcategory;
+use App\Models\Category;
 use Livewire\Component;
 
 new class extends Component
@@ -19,7 +19,7 @@ new class extends Component
     public function save()
     {
         $this->validate();
-        Subcategory::create(['name' => $this->title, 'category_id' => $this->category_id]);
+        Category::create(['name' => $this->title, 'category_id' => $this->category_id]);
 
         $this->reset(['title', 'category_id', 'category_name']);
         $this->showModal = false;
@@ -40,10 +40,10 @@ new class extends Component
     <x-livewire-modal>
         <form wire:submit="save">
             <div class="py-2">
-                <h1>Catégorie : {{ $this->category_name }}</h1>
+                <h1>Titre de la catégorie mère : {{ $this->category_name }}</h1>
             </div>
             <div class="py-2">
-                <label for="title">Titre :</label>
+                <label for="title">Titre de la sous-catégorie :</label>
                 <span class="px-1"></span>
                 <input type="text" id="title" name="title" wire:model.live="title" required size="50"
                     class="flex-auto rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500" />

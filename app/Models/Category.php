@@ -14,6 +14,11 @@ class Category extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name'
+        'name',
+        'category_id'
     ];
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -20,4 +20,10 @@ class CategoryFactory extends Factory
             'name' => fake()->text(15)
         ];
     }
+    public function sub_1(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'category_id' => 1,
+        ]);
+    }
 }

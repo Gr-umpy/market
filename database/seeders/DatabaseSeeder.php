@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'test'
         ]);
         Category::factory(2)->create();
-        Subcategory::factory(2)->create();
+        Category::factory(2)->sub_1()->create();
         Product::factory(20)->create();
     }
 }
