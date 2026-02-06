@@ -10,7 +10,7 @@ new class extends Component
 {
     #[Validate('required|min:3|max:255|unique:products,name')]
     public string $name = '';
-    #[Validate('required|min:3|max:1023|unique:products,name')]
+    #[Validate('required|min:3|max:1023')]
     public string $description = '';
     #[Validate('required|int')]
     public ?int $category_id = null;
