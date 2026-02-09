@@ -5,12 +5,15 @@ use Livewire\Attributes\Validate;
 use Livewire\Attributes\On;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Variant;
 use Livewire\Component;
 
 new class extends Component
 {
     #[Validate('required|min:3|max:255|unique:products,name')]
     public string $name = '';
+    #[Validate('required|numeric|min:0')]
+    public ?float $price = null;
     #[Validate('required|min:3|max:1023')]
     public string $description = '';
     /** @var array<int, array{id:int,name:string}> */
@@ -157,10 +160,15 @@ new class extends Component
             'user_id' => $this->user_id,
         ]);
 
+        Variant::create([
+            'price' => $this->price,
+            'product_id' => $product->id,
+        ]);
+
         $categoryIds = array_column($this->selectedCategories, 'id');
         $product->categories()->sync($categoryIds);
 
-        $this->reset(['name', 'description', 'user_id', 'selectedCategories', 'searchCategory']);
+        $this->reset(['name', 'description', 'price', 'user_id', 'selectedCategories', 'searchCategory']);
         $this->showModal = false;
         $this->dispatch('productCreated');
     }
@@ -183,6 +191,14 @@ new class extends Component
                 <textarea id="description" name="description" wire:model.live="description" required rows="2" cols="50"
                     class="flex-1 rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500" ></textarea>
                 @error('description')
+                    <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="py-2 flex items-center gap-1">
+                <label for="price">Prix :</label>
+                <input type="number" id="price" name="price" wire:model="price" required min="0" step="0.01"
+                    class="flex-1 rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500" />
+                @error('price')
                     <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
                 @enderror
             </div>
