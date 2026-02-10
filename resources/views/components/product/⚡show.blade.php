@@ -17,17 +17,33 @@ new class extends Component
 
     public bool $showTable = false;
 
+    public ?string $searchTitle = null;
+    public bool $withoutcategory = false;
+    public bool $sellable = false;
+    
     protected $listeners = [
         'productCreated' => '$refresh',
         'productDeleted' => '$refresh',
         'productUpdated' => '$refresh'
     ];
+        
+    #[On('filtersUpdated')]
+    public function updateFilters($filters) 
+    {
+        $this->searchTitle = $filters['searchTitle'];
+        $this->withoutcategory = $filters['withoutcategory'];
+        $this->sellable = $filters['sellable'];
+        $this->resetPage();
+    }
 
     public function render()
     {
         $this->authorize('viewAny', Product::class);
 
         $products = Product::with(['user', 'categories'])
+            ->when($this->searchTitle, fn ($q) => $q->where('name', 'LIKE', '%'.$this->searchTitle.'%'))
+            ->when($this->withoutcategory, fn($q) => $q->whereDoesntHave('categories'))
+            ->when($this->sellable, fn($q) => $q->whereHas('categories')->whereHas('variants'))
             ->latest()
             ->paginate(15);
 
