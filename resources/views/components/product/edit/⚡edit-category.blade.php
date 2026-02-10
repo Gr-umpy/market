@@ -8,7 +8,7 @@ new class extends Component
 {
     public Product $product;
 
-
+    public bool $isDirty = false;
 
     /** @var array<int, array{id:int,name:string}> */
     public array $selectedCategories = [];
@@ -34,6 +34,8 @@ new class extends Component
         sort($this->initialCategoryIds);
         $this->searchCategory = '';
         $this->categoryResults = [];
+        $this->isDirty = false;
+        $this->dispatch('editCategoryDirty', false);
     }
 
     public function getIsDirtyProperty(): bool
@@ -81,6 +83,8 @@ new class extends Component
         $this->searchCategory = '';
         $this->categoryResults = [];
         $this->openCategoryDropdown = false;
+        $this->isDirty = $this->getIsDirtyProperty();
+        $this->dispatch('editCategoryDirty', $this->isDirty);
     }
 
     private function addCategoryWithParents(Category $category): void
@@ -117,6 +121,8 @@ new class extends Component
         $this->selectedCategories = array_values(
             array_filter($this->selectedCategories, fn ($cat) => ! in_array($cat['id'], $idsToRemove))
         );
+        $this->isDirty = $this->getIsDirtyProperty();
+        $this->dispatch('editCategoryDirty', $this->isDirty);
     }
 
     private function collectCategoryAndDescendants(int $categoryId): array
@@ -144,6 +150,9 @@ new class extends Component
 
         $this->initialCategoryIds = $categoryIds;
         sort($this->initialCategoryIds);
+
+        $this->isDirty = false;
+        $this->dispatch('editCategoryDirty', false);
 
         $this->successMessage = 'Catégories mises à jour avec succès !';
 

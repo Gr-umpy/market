@@ -10,6 +10,8 @@ new class extends Component
 
     public ?string $successMessage = null;
 
+    public bool $isDirty = false;
+
     #[Validate('required|string|max:255')]
     public string $title;
 
@@ -20,6 +22,20 @@ new class extends Component
     {
         $this->title = $this->product->name;
         $this->description = $this->product->description;
+        $this->isDirty = false;
+        $this->dispatch('editInfoDirty', false);
+    }
+
+    public function updatedTitle()
+    {
+        $this->isDirty = $this->title !== $this->product->name || $this->description !== $this->product->description;
+        $this->dispatch('editInfoDirty', $this->isDirty);
+    }
+
+    public function updatedDescription()
+    {
+        $this->isDirty = $this->title !== $this->product->name || $this->description !== $this->product->description;
+        $this->dispatch('editInfoDirty', $this->isDirty);
     }
 
     public function save()
@@ -34,6 +50,9 @@ new class extends Component
             'description' => $this->description,
         ]);
 
+        $this->isDirty = false;
+        $this->dispatch('editInfoDirty', false);
+
         $this->successMessage = 'Informations mises à jour avec succès !';
 
         $this->js('setTimeout(() => $wire.set("successMessage", null), 2000)');
@@ -42,7 +61,7 @@ new class extends Component
 ?>
 
 <div>
-    <form wire:submit="save" wire:dirty.class="is-dirty">
+    <form wire:submit="save">
         <div class="space-y-12">
             <div class="border-b border-white/10 pb-12">
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -52,8 +71,8 @@ new class extends Component
                         <div class='mt-2'>
                             <div
                                 class='flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500'>
-                                <input required id='title' type='text' wire:model='title'
-                                    class='shrink-0 text-base block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6' />
+                            <input required id='title' type='text' wire:model.live='title'
+                                class='shrink-0 text-base block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6' />
                             </div>
                             @error('title')
                                 <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
@@ -66,8 +85,8 @@ new class extends Component
                         <div class='mt-2'>
                             <div
                                 class='flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500'>
-                                <textarea required id='description' type='text' wire:model='description' rows="2"
-                                    class='shrink-0 text-base block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6'></textarea>
+                            <textarea required id='description' type='text' wire:model.live='description' rows="2"
+                                class='shrink-0 text-base block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6'></textarea>
                             </div>
                             @error('description')
                                 <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
@@ -79,7 +98,7 @@ new class extends Component
             </div>
         </div>
     
-        <x-submit-button color="green" wire:dirty.remove.attr="disabled" disabled wire:dirty.class.remove="opacity-70 cursor-not-allowed" class="opacity-70 cursor-not-allowed">Éditer le produit</x-submit-button>
+        <x-submit-button color="green" :disabled="! $this->isDirty" class="{{ ! $this->isDirty ? 'opacity-70 cursor-not-allowed' : '' }}">Éditer le produit</x-submit-button>
     </form>
 
     @if ($successMessage)

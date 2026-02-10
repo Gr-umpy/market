@@ -13,7 +13,12 @@
         </button>
     </x-slot:button>
 
-    <div x-data="{ show: 1 }">
+    <div x-data="{ show: 1, isAnyDirty: false, dirtyStates: {1: false, 2: false, 3: false} }" x-init="
+        window.isAnyDirty = false;
+        Livewire.on('editInfoDirty', (isDirty) => { dirtyStates[1] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
+        Livewire.on('editCategoryDirty', (isDirty) => { dirtyStates[2] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
+        Livewire.on('editVariantDirty', (isDirty) => { dirtyStates[3] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
+    ">
         <el-dialog>
             <dialog id="drawer" aria-labelledby="drawer-title"
                 class="fixed inset-0 size-auto max-h-none max-w-none overflow-hidden bg-transparent not-open:hidden backdrop:bg-transparent">
@@ -69,4 +74,13 @@
             <livewire:product.edit.edit-variant :$product />
         </div>
     </div>
+
+    <script>
+        window.addEventListener('beforeunload', (e) => {
+            if (window.isAnyDirty) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
 </x-layout>

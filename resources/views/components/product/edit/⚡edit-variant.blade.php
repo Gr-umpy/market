@@ -7,6 +7,7 @@ use App\Models\Product;
 new class extends Component
 {
     public Product $product;
+    public bool $isDirty = false;
     public $variants = [];
     public array $initialVariants = [];
 
@@ -30,6 +31,8 @@ new class extends Component
             ];
         })->toArray();
         $this->initialVariants = $this->variants;
+        $this->isDirty = false;
+        $this->dispatch('editVariantDirty', false);
     }
 
     public function moveUp($index)
@@ -39,6 +42,8 @@ new class extends Component
             $this->variants[$index - 1] = $this->variants[$index];
             $this->variants[$index] = $temp;
             $this->variants = array_values($this->variants);
+            $this->isDirty = $this->getIsDirtyProperty();
+            $this->dispatch('editVariantDirty', $this->isDirty);
         }
     }
 
@@ -49,12 +54,22 @@ new class extends Component
             $this->variants[$index + 1] = $this->variants[$index];
             $this->variants[$index] = $temp;
             $this->variants = array_values($this->variants);
+            $this->isDirty = $this->getIsDirtyProperty();
+            $this->dispatch('editVariantDirty', $this->isDirty);
         }
     }
 
     public function getIsDirtyProperty(): bool
     {
         return $this->variants !== $this->initialVariants;
+    }
+
+    public function updated($property)
+    {
+        if (str_starts_with($property, 'variants.')) {
+            $this->isDirty = $this->getIsDirtyProperty();
+            $this->dispatch('editVariantDirty', $this->isDirty);
+        }
     }
 
     public function addVariant()
@@ -64,12 +79,16 @@ new class extends Component
             'name' => '',
             'price' => '',
         ];
+        $this->isDirty = $this->getIsDirtyProperty();
+        $this->dispatch('editVariantDirty', $this->isDirty);
     }
 
     public function removeVariant($index)
     {
         unset($this->variants[$index]);
         $this->variants = array_values($this->variants);
+        $this->isDirty = $this->getIsDirtyProperty();
+        $this->dispatch('editVariantDirty', $this->isDirty);
     }
 
     public function save()
@@ -95,6 +114,9 @@ new class extends Component
         $this->successMessage = 'Variantes mises à jour avec succès !';
 
         $this->js('setTimeout(() => $wire.set("successMessage", null), 2000)');
+
+        $this->isDirty = false;
+        $this->dispatch('editVariantDirty', false);
 
         $this->mount();
     }
