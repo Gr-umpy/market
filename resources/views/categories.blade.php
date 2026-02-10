@@ -2,6 +2,9 @@
     <x-slot:heading>
         Catégories
     </x-slot:heading>
+    <x-slot:button>
+        <livewire:filter.category/>
+    </x-slot:button>
     <livewire:category.create/>
     <livewire:category.show/>
 </x-layout>

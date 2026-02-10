@@ -12,10 +12,13 @@ new class extends Component
 {
     #[Validate('required|min:3|max:255|unique:products,name')]
     public string $name = '';
+
     #[Validate('required|numeric|min:0')]
     public ?float $price = null;
+
     #[Validate('required|min:3|max:1023')]
     public string $description = '';
+
     /** @var array<int, array{id:int,name:string}> */
     public array $selectedCategories = [];
 

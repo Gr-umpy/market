@@ -169,12 +169,12 @@ new class extends Component
                 <div class='sm:col-span-4'>
                     <label for='search-category' class='block text-sm/6 font-medium text-black'>Catégories de "{{ $this->product->name }}" :</label>
                     <div class='mt-2'>
-                        <div class='flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500'>
+                        <div class='relative flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500'>
                             <input required id='search-category' type='search' wire:model.live='searchCategory' wire:click="openCategoryDropdown = true" placeholder="Rechercher une catégorie..."
                                 class='shrink-0 text-base block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6' />
                             @if (! empty($categoryResults))
                                 <ul @click.outside="$wire.openCategoryDropdown = false" x-show="$wire.openCategoryDropdown"
-                                    class="absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md border border-gray-300 bg-white shadow">
+                                    class="absolute z-50 top-full left-0 w-full max-h-60 overflow-auto rounded-md border border-gray-300 bg-white shadow">
                                     @foreach ($categoryResults as $categorie)
                                         <li wire:key="edit-autocomplete-category-{{ $categorie['id'] }}"
                                             wire:click="selectCategoryForEdit({{ $categorie['id'] }})" class="cursor-pointer px-3 py-1 hover:bg-gray-100">
@@ -206,7 +206,7 @@ new class extends Component
                     </div>
                 </div>
                 <div class='sm:col-span-4'>
-                    <x-button wire:click="saveCategories" color="green" :disabled="!$this->isDirty" class="{{ !$this->isDirty ? 'opacity-70 cursor-not-allowed' : '' }}">Enregistrer les catégories</x-button>
+                    <x-button wire:click="saveCategories" color="green" :disabled="! $this->isDirty" class="{{ ! $this->isDirty ? 'opacity-70 cursor-not-allowed' : '' }}">Enregistrer les catégories</x-button>
                 </div>
 
                 @if ($successMessage)

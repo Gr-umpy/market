@@ -5,6 +5,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Validate;
 use App\Models\Category;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 new class extends Component
 {
@@ -16,17 +17,26 @@ new class extends Component
 
     public bool $showTable = false;
 
+    public ?string $searchTitle = null;
+
     protected $listeners = [
         'categoryCreated' => '$refresh',
         'categoryDeleted' => '$refresh',
         'subcategoryCreated' => '$refresh'
     ];
 
+    #[On('filtersUpdated')]
+    public function updateFilters($filters) {
+        $this->searchTitle = $filters['searchTitle'];
+        $this->resetPage();
+    }
+
     public function render()
     {
         $this->authorize('viewAny', Category::class);
         
         $categories = Category::with('category')
+            ->when($this->searchTitle, fn ($q) => $q->where('name', 'LIKE', '%'.$this->searchTitle.'%'))
             ->orderBy('category_id')
             ->latest()
             ->paginate(15);
