@@ -24,6 +24,8 @@ new class extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Category::class);
+        
         $categories = Category::with('category')
             ->orderBy('category_id')
             ->latest()

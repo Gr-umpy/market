@@ -74,6 +74,8 @@ new class extends Component
 
     public function save()
     {
+        $this->authorize('update', $this->product);
+
         $this->validate();
 
         $existingIds = collect($this->variants)->pluck('id')->filter()->toArray();

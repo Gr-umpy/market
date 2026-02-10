@@ -151,6 +151,8 @@ new class extends Component
 
     public function save()
     {
+        $this->authorize('create', Product::class);
+
         $this->validate();
         $this->user_id = auth()->id();
 

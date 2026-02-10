@@ -26,10 +26,10 @@ class CategoryFactory extends Factory
             'category_id' => 1,
         ]);
     }
-    public function sub_2(): static
+    public function sub_3(): static
     {
         return $this->state(fn (array $attributes) => [
-            'category_id' => 2,
+            'category_id' => 3,
         ]);
     }
 }

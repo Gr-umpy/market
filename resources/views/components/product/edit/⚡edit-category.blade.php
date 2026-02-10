@@ -137,6 +137,8 @@ new class extends Component
 
     public function saveCategories(): void
     {
+        $this->authorize('update', $this->product);
+
         $categoryIds = array_column($this->selectedCategories, 'id');
         $this->product->categories()->sync($categoryIds);
 

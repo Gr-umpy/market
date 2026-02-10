@@ -25,6 +25,8 @@ new class extends Component
 
     public function render()
     {
+        $this->authorize('viewAny', Product::class);
+
         $products = Product::with(['user', 'categories'])
             ->latest()
             ->paginate(15);

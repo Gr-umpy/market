@@ -26,6 +26,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'lisandrusecondi@gmail.com',
             'password' => 'test'
         ]);
+        User::factory()->create([
+            'first_name' => 'Lisandru2',
+            'last_name' => 'Secondi2',
+            'email' => 'lisandrusecondi@gmail.cm',
+            'password' => 'test'
+        ]);
         Category::factory()->create([
             'name' => 'Livre'
         ]);
@@ -38,7 +44,7 @@ class DatabaseSeeder extends Seeder
         Category::factory()->sub_1()->create([
             'name' => 'Récit'
         ]);
-        Category::factory()->sub_2()->create([
+        Category::factory()->sub_3()->create([
             'name' => 'Policier'
         ]);
         Product::factory(20)->create();
