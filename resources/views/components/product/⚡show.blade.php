@@ -90,7 +90,7 @@ new class extends Component
                 </td>
                 <td class="py-1 border-b border-gray-400/50">
                     <div class="flex place-content-center gap-1">
-                        <a href="{{ route('products.edit', $product) }}" class="text-green-600">
+                        <a href="{{ route('products.edit.infos', $product) }}" class="text-green-600">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentcolor" class="size-5">
                                 <path
                                     d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />

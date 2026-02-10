@@ -16,5 +16,7 @@ Route::controller(LoginController::class)->name('login.')->group(function () {
 
 Route::controller(ProductController::class)->name('products.')->group(function () {
     Route::get('produits', 'index')->name('index');
-    Route::get('produits/{product}', 'edit')->name('edit');
+    Route::get('produits/{product}/infos', 'edit_infos')->name('edit.infos');
+    Route::get('produits/{product}/categories', 'edit_categories')->name('edit.categories');
+    Route::get('produits/{product}/variants', 'edit_variants')->name('edit.variants');
 });

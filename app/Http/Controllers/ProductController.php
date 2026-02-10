@@ -14,13 +14,20 @@ class ProductController extends Controller
     {
         return view('product.index');
     }
-
-    /**
-     * Show the page for editing the specified resource.
-     */
-    public function edit(Product $product)
+    
+    public function edit_infos(Product $product)
     {
-        return view('product.edit', ['product' => $product]);
+        return view('product.edit.infos', ['product' => $product]);
+    }
+    
+    public function edit_categories(Product $product)
+    {
+        return view('product.edit.categories', ['product' => $product]);
+    }
+    
+    public function edit_variants(Product $product)
+    {
+        return view('product.edit.variants', ['product' => $product]);
     }
 
 }
