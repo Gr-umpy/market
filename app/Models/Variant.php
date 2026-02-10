@@ -13,6 +13,7 @@ class Variant extends Model
         'name',
         'price',
         'product_id',
+        'order',
     ];
 
     public function product()

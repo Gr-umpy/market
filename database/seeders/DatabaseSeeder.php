@@ -26,8 +26,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'lisandrusecondi@gmail.com',
             'password' => 'test'
         ]);
-        Category::factory(2)->create();
-        Category::factory(2)->sub_1()->create();
+        Category::factory()->create([
+            'name' => 'Livre'
+        ]);
+        Category::factory()->create([
+            'name' => 'Nourriture'
+        ]);
+        Category::factory()->sub_1()->create([
+            'name' => 'Roman'
+        ]);
+        Category::factory()->sub_1()->create([
+            'name' => 'Récit'
+        ]);
+        Category::factory()->sub_2()->create([
+            'name' => 'Policier'
+        ]);
         Product::factory(20)->create();
     }
 }
