@@ -40,7 +40,7 @@
                                     class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
                                     <input required id="email" type="text" name="email" placeholder="exemple@exemple.com"
                                         value="{{ old('email') }}"
-                                        class="shrink-0 text-base sm:text-sm block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
+                                        class="shrink-0 text-base sm:text-sm block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none" />
                                 </div>
                                 @error('email')
                                     <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -54,7 +54,7 @@
                                 <div
                                     class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
                                     <input required id="password" type="password" name="password" placeholder="password"
-                                        class="shrink-0 text-base sm:text-sm block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-black placeholder:text-gray-500 focus:outline-none sm:text-sm/6" />
+                                        class="shrink-0 text-base sm:text-sm block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-black placeholder:text-gray-500 focus:outline-none" />
                                 </div>
                                 @error('password')
                                     <p class="text-xs text-red-500 font-semibold mt-1">{{ $message }}</p>
@@ -65,6 +65,10 @@
                 </div>
             </div>
         </form>
+
+        <div class="mt-4">
+            <p class="text-sm text-gray-600">Pas de compte ? <a href="{{ route('register.show') }}" class="text-indigo-700 hover:text-indigo-500">S'inscrire</a></p>
+        </div>
     @endauth
 
 

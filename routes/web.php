@@ -14,6 +14,11 @@ Route::controller(LoginController::class)->name('login.')->group(function () {
     Route::post('connexion/logout', 'logout')->name('logout');
 });
 
+Route::controller(LoginController::class)->name('register.')->group(function () {
+    Route::get('inscription', 'showRegister')->name('show');
+    Route::post('inscription', 'register')->name('store');
+});
+
 Route::middleware('auth')->group(function () {
 
     Route::view('/catégories', 'categories')->name('categories');

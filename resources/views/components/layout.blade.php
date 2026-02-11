@@ -28,13 +28,15 @@
             <div class="flex items-center">
               <div class="block">
                 <div class="flex items-baseline space-x-4">
-                  <x-nav-link href="{{ route('login.show') }}" :active="request()->is('connexion')">
                     @auth
-                      Se déconnecter
+                      <x-nav-link href="{{ route('login.show') }}" :active="request()->is('connexion')">
+                        Se déconnecter
+                      </x-nav-link>
                     @else  
-                      Se connecter
+                      <x-nav-link href="{{ route('register.show') }}" :active="request()->is('inscription') || request()->is('connexion')">
+                        Se connecter
+                      </x-nav-link>
                     @endauth
-                  </x-nav-link>
                   <a href="{{ route('cart') }}" class="self-center">
                     @if (request()->is('panier'))
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
