@@ -5,7 +5,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'market')->name('home');
-Route::view('/catégories', 'categories')->name('categories');
+
 Route::view('/panier', 'cart')->name('cart');
 
 Route::controller(LoginController::class)->name('login.')->group(function () {
@@ -14,9 +14,15 @@ Route::controller(LoginController::class)->name('login.')->group(function () {
     Route::post('connexion/logout', 'logout')->name('logout');
 });
 
-Route::controller(ProductController::class)->name('products.')->group(function () {
-    Route::get('produits', 'index')->name('index');
-    Route::get('produits/{product}/infos', 'edit_infos')->name('edit.infos');
-    Route::get('produits/{product}/categories', 'edit_categories')->name('edit.categories');
-    Route::get('produits/{product}/variants', 'edit_variants')->name('edit.variants');
+Route::middleware('auth')->group(function () {
+
+    Route::view('/catégories', 'categories')->name('categories');
+    
+    Route::controller(ProductController::class)->name('products.')->group(function () {
+        Route::get('produits', 'index')->name('index');
+        Route::get('produits/{product}/infos', 'edit_infos')->name('edit.infos');
+        Route::get('produits/{product}/categories', 'edit_categories')->name('edit.categories');
+        Route::get('produits/{product}/variants', 'edit_variants')->name('edit.variants');
+    });
+
 });
