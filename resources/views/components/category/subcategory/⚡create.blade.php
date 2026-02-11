@@ -19,7 +19,7 @@ new class extends Component
     public function save()
     {
         $this->authorize('create', Category::class);
-        
+
         $this->validate();
         Category::create(['name' => $this->title, 'category_id' => $this->category_id]);
 
@@ -45,11 +45,11 @@ new class extends Component
                 <h1>Titre de la catégorie mère : {{ $this->category_name }}</h1>
             </div>
             <div class="py-2">
-                <label for="title">Titre de la sous-catégorie :</label>
+                <label for="title-sub">Titre de la sous-catégorie :</label>
                 <span class="px-1"></span>
-                <input type="text" id="title" name="title" wire:model.live="title" required size="50"
+                <input type="text" id="title-sub" wire:model.live="title" required size="50"
                     class="flex-auto rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-grey-200 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500" />
-                @error('title')
+                @error('title-sub')
                     <p class='text-xs text-red-500 font-semibold mt-1'>{{ $message }}</p>
                 @enderror
             </div>
