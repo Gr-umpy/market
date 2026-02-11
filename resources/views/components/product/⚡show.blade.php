@@ -20,15 +20,15 @@ new class extends Component
     public ?string $searchTitle = null;
     public bool $withoutcategory = false;
     public bool $sellable = false;
-    
+
     protected $listeners = [
         'productCreated' => '$refresh',
         'productDeleted' => '$refresh',
         'productUpdated' => '$refresh'
     ];
-        
+
     #[On('filtersUpdated')]
-    public function updateFilters($filters) 
+    public function updateFilters($filters)
     {
         $this->searchTitle = $filters['searchTitle'];
         $this->withoutcategory = $filters['withoutcategory'];
@@ -42,8 +42,8 @@ new class extends Component
 
         $products = Product::with(['user', 'categories'])
             ->when($this->searchTitle, fn ($q) => $q->where('name', 'LIKE', '%'.$this->searchTitle.'%'))
-            ->when($this->withoutcategory, fn($q) => $q->whereDoesntHave('categories'))
-            ->when($this->sellable, fn($q) => $q->whereHas('categories')->whereHas('variants'))
+            ->when($this->withoutcategory, fn ($q) => $q->whereDoesntHave('categories'))
+            ->when($this->sellable, fn ($q) => $q->whereHas('categories')->whereHas('variants'))
             ->latest()
             ->paginate(15);
 
@@ -80,7 +80,9 @@ new class extends Component
 
             <tr class="bg-blue-400/10 even:bg-blue-400/20">
                 <td class="py-1 text-center border-b border-gray-400/50">
-                    {{ $product->name }}
+                    <a href="{{ route('products.edit.infos', $product) }}">
+                        {{ $product->name }}
+                    </a>
                 </td>
                 <td class="py-1 text-center border-b border-gray-400/50">
                     {{ Str::limit($product->description, 100) }}

@@ -1,7 +1,7 @@
 @props(['product'])
 
 <div class="grid grid-cols-3">
-    <div class="relative mt-6 flex-1 px-4 sm:px-6">
+    <div class="relative mt-6 flex-1 px-4 sm:px-6 max-md:hidden">
         <div class="py-0.5">
             <a href="{{ route('products.edit.infos', $product) }}" class="cursor-pointer select-none inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border 
                         border-gray-300 leading-5 rounded-md hover:text-green-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 
@@ -25,7 +25,6 @@
             </a>
         </div>
         <div class="py-0.5">
-
             <a href="{{ route('products.edit.variants', $product) }}" class="cursor-pointer select-none inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border 
                     border-gray-300 leading-5 rounded-md hover:text-green-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 
                     active:bg-green-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-green-800 dark:border-gray-600 
@@ -37,7 +36,7 @@
             </a>
         </div>
     </div>
-    <div class="col-span-2">
+    <div class="md:col-span-2 max-md:col-span-3">
         {{ $slot }}
     </div>
 </div>

@@ -13,7 +13,7 @@
         <div class="mx-auto max-w-7xl px-2 sm:px-3 lg:px-4">
           <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
-              <div class="hidden md:block">
+              <div class="block">
                 <div class="flex items-baseline space-x-4">
                     <x-nav-link href="{{ route('home') }}" :active="request()->is('/')">Accueil</x-nav-link>
                     @can('viewAny', App\Models\Category::class)  
@@ -26,7 +26,7 @@
               </div>
             </div>
             <div class="flex items-center">
-              <div class="hidden md:block">
+              <div class="block">
                 <div class="flex items-baseline space-x-4">
                   <x-nav-link href="{{ route('login.show') }}" :active="request()->is('connexion')">
                     @auth
