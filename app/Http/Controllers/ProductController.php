@@ -29,5 +29,10 @@ class ProductController extends Controller
     {
         return view('product.edit.variants', ['product' => $product]);
     }
+    
+    public function edit_images(Product $product)
+    {
+        return view('product.edit.images', ['product' => $product]);
+    }
 
 }

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
         Route::get('produits/{product}/infos', 'edit_infos')->name('edit.infos');
         Route::get('produits/{product}/categories', 'edit_categories')->name('edit.categories');
         Route::get('produits/{product}/variants', 'edit_variants')->name('edit.variants');
+        Route::get('produits/{product}/images', 'edit_images')->name('edit.images');
     });
 
 });

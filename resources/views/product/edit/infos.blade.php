@@ -6,7 +6,7 @@
     <x-product.edit.phone-sidebar :product="$product"></x-product.edit.phone-sidebar>
     
     <x-product.edit.sidebar :product="$product">
-        <livewire:product.edit.edit-info :$product />
+        <livewire:product.edit.info :$product />
     </x-product.edit.sidebar>
 
 </x-layout>

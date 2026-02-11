@@ -11,11 +11,12 @@
     </button>
 </x-slot:button>
 
-<div class="md:hidden" x-data="{ show: 1, isAnyDirty: false, dirtyStates: {1: false, 2: false, 3: false} }" x-init="
+<div class="md:hidden" x-data="{ show: 1, isAnyDirty: false, dirtyStates: {1: false, 2: false, 3: false, 4: false} }" x-init="
         window.isAnyDirty = false;
         Livewire.on('editInfoDirty', (isDirty) => { dirtyStates[1] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
         Livewire.on('editCategoryDirty', (isDirty) => { dirtyStates[2] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
         Livewire.on('editVariantDirty', (isDirty) => { dirtyStates[3] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
+        Livewire.on('editImageDirty', (isDirty) => { dirtyStates[4] = isDirty[0]; isAnyDirty = Object.values(dirtyStates).some(v => v); window.isAnyDirty = isAnyDirty; });
     ">
     <el-dialog>
         <dialog id="drawer" aria-labelledby="drawer-title"
@@ -46,39 +47,7 @@
                             <h2 id="drawer-title" class="text-base font-semibold text-white">Édition</h2>
                         </div>
                         <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                            <div class="py-0.5">
-                                <a href="{{ route('products.edit.infos', $product) }}" class="cursor-pointer select-none inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border 
-                                border-gray-300 leading-5 rounded-md hover:text-green-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 
-                                active:bg-green-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-green-800 dark:border-gray-600 
-                                dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-green-700 dark:active:text-gray-300 hover:bg-green-100 
-                                dark:hover:bg-green-900 dark:hover:text-green-200">
-
-                                    Éditer les informations du produit
-
-                                </a>
-                            </div>
-                            <div class="py-0.5">
-                                <a href="{{ route('products.edit.categories', $product) }}" class="cursor-pointer select-none inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border 
-                                border-gray-300 leading-5 rounded-md hover:text-green-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 
-                                active:bg-green-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-green-800 dark:border-gray-600 
-                                dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-green-700 dark:active:text-gray-300 hover:bg-green-100 
-                                dark:hover:bg-green-900 dark:hover:text-green-200">
-
-                                    Éditer les catégories du produit
-
-                                </a>
-                            </div>
-                            <div class="py-0.5">
-                                <a href="{{ route('products.edit.variants', $product) }}" class="cursor-pointer select-none inline-flex items-center px-3 py-2 text-sm font-medium text-gray-800 bg-white border 
-                                border-gray-300 leading-5 rounded-md hover:text-green-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 
-                                active:bg-green-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-green-800 dark:border-gray-600 
-                                dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-green-700 dark:active:text-gray-300 hover:bg-green-100 
-                                dark:hover:bg-green-900 dark:hover:text-green-200">
-
-                                    Éditer les Prix du produit
-
-                                </a>
-                            </div>
+                            <x-product.edit.bar-buttons :product="$product"></x-product.edit.bar-buttons>
                         </div>
                     </div>
                 </el-dialog-panel>

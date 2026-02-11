@@ -16,11 +16,16 @@ class Product extends Model
     public function categories() {
         return $this->belongsToMany(Category::class);
     }
+
     public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function variants() {
         return $this->hasMany(Variant::class);
+    }
+
+    public function images() {
+        return $this->hasMany(Image::class);
     }
 }
