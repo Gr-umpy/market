@@ -5,7 +5,7 @@
     <ul>
         @foreach (session()->except(['_token', '_flash', '_previous']) as $key => $value)
             <li class="py-2">
-                {{ $key }}: {{ $value }}
+                clé {{ $key }}, valeur {{ $value }}
                 {{-- {{ session()->forget($key) }} --}}
             </li>
         @endforeach
