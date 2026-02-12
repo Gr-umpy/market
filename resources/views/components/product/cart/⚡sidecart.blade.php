@@ -48,7 +48,7 @@ new class extends Component
             ]);
         }
 
-        return $items;
+        return $items->sortBy('variant.order')->sortBy('product.id');
     }
 
     public function more($product_id, $variant_order)

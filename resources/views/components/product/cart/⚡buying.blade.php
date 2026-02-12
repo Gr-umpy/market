@@ -31,7 +31,7 @@ new class extends Component
         Variants :
     </h1>
     <div class="grid grid-cols-[repeat(2,minmax(120px,1fr))] gap-1"> {{-- grid-cols-[repeat(auto-fit,minmax(120px,1fr))] --}}
-        @foreach ($product->variants as $variant)
+        @foreach ($product->variants->sortBy('order') as $variant)
             <button class="p-2 {{ $this->variant == $variant->order ? 'bg-sky-600' : 'bg-sky-300 hover:bg-sky-600' }} rounded-sm" wire:click='saveVariant({{ $variant->order }})'>
                 {{ $variant->name }} {{ $variant->formatted_price }}
             </button>
