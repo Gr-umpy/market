@@ -14,7 +14,11 @@ new class extends Component
     {
         $items = collect();
 
-        foreach (session()->except(['_token', '_flash', '_previous']) as $key => $value) {
+        $sessionData = collect(session()->all())
+            ->except(['_token', '_flash', '_previous'])
+            ->filter(fn ($value, $key) => !str_starts_with($key, 'login_web'));
+
+        foreach ($sessionData as $key => $value) {
             $items->push((object) [
                 'id' => explode(':', $key)[0],
                 'order' => explode(':', $key)[1],
