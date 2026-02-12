@@ -32,3 +32,7 @@ Route::middleware('auth')->group(function () {
     });
 
 });
+
+Route::controller(ProductController::class)->name('product.')->group(function () {
+    Route::get('/{product}', 'show')->name('show');
+});
