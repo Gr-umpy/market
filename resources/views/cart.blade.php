@@ -5,6 +5,7 @@
 
     <livewire:product.cart.sidecart />
 
-    <x-a-button color="teal" href="{{ route('pay') }}">Payer</x-a-button>
+    <x-a-button color="teal" href="{{ route('checkout') }}">Payer</x-a-button>
+
     
 </x-layout>

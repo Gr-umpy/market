@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CheckoutController;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'market')->name('home');
@@ -19,8 +22,6 @@ Route::controller(LoginController::class)->name('register.')->group(function () 
     Route::post('inscription', 'register')->name('store');
 });
 
-Route::view('panier/payment', 'pay')->name('pay');
-
 Route::middleware('auth')->group(function () {
 
     Route::view('/catégories', 'categories')->name('categories');
@@ -34,6 +35,14 @@ Route::middleware('auth')->group(function () {
     });
 
 });
+
+Route::post('/create-checkout-session', [CheckoutController::class, 'createCheckoutSession'])->name('checkout.session');
+Route::view('/checkout', 'checkout')->name('checkout');
+Route::get('/return', function (Request $request) {
+    return view('return', ['session_id' => $request->query('session_id')]);
+})->name('checkout.return');
+Route::post('/checkout/status', [CheckoutController::class, 'checkoutStatus'])->name('checkout.status');
+
 
 Route::controller(ProductController::class)->name('product.')->group(function () {
     Route::get('/{product}', 'show')->name('show');

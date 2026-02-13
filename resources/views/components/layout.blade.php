@@ -104,7 +104,7 @@
                         <a href="{{ route('cart') }}" class="rounded-md bg-emerald-700 hover:bg-emerald-600 p-1">
                         finaliser la commande
                         </a>
-                        <x-a-button color="teal" href="{{ route('pay') }}">Payer</x-a-button>
+                        <x-a-button color="teal" href="{{ route('checkout') }}">Payer</x-a-button>
                       </div>
                       
                     </div>
