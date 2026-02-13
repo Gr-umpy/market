@@ -19,6 +19,8 @@ Route::controller(LoginController::class)->name('register.')->group(function () 
     Route::post('inscription', 'register')->name('store');
 });
 
+Route::view('panier/payment', 'pay')->name('pay');
+
 Route::middleware('auth')->group(function () {
 
     Route::view('/catégories', 'categories')->name('categories');

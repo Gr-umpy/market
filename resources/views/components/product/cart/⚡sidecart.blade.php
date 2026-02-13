@@ -61,8 +61,7 @@ new class extends Component
     {
         if (session($product_id.":".$variant_order) > 1) {
             session([$product_id.":".$variant_order => session($product_id.":".$variant_order) - 1]);
-            }
-        elseif (session($product_id.":".$variant_order) == 1) {
+        } elseif (session($product_id.":".$variant_order) == 1) {
             session()->forget($product_id.":".$variant_order);
         }
         $this->dispatch('cartUpdated');
@@ -86,7 +85,7 @@ new class extends Component
             <li class="py-2">
                 <div class="grid grid-cols-3">
                     <div>
-                        <img src="{{ $cartItem->image->url ?? '' }}" alt="{{ $cartItem->product->name }}" class="w-16 h-16 object-cover">
+                        <img src="{{ $cartItem->image ? Storage::url($cartItem->image->url) : '' }}" alt="{{ $cartItem->product->name }}" class="w-16 h-16 object-cover">
                     </div>
                     <div>
                         Produit : {{ $cartItem->product->name }}<br>
@@ -119,7 +118,15 @@ new class extends Component
             </li>
         @endforeach
     </ul>
-    <p class="py-2">
-        Total de la commande : {{ $this->total }}
-    </p>
+    @if (request()->is('panier'))
+        <p class="py-2">
+            Total de la commande : {{ $this->total }}
+        </p>
+    @else
+        @teleport('#bottom-cart')
+            <p class="py-2">
+                Total de la commande : {{ $this->total }}
+            </p>
+        @endteleport
+    @endif
 </div>

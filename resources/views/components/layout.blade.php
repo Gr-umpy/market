@@ -100,9 +100,13 @@
                     </div>
                     <div class="relative mt-6 flex-1 px-4 sm:px-6 text-white text-center">
                       <livewire:product.cart.sidecart />
-                      <a href="{{ route('cart') }}" class="absolute bottom-0 right-20 left-20 rounded-md bg-emerald-700 hover:bg-emerald-600 p-1">
+                      <div id="bottom-cart" class="absolute bottom-0 grid grid-cols-1 justify-center">
+                        <a href="{{ route('cart') }}" class="rounded-md bg-emerald-700 hover:bg-emerald-600 p-1">
                         finaliser la commande
-                      </a>
+                        </a>
+                        <x-a-button color="teal" href="{{ route('pay') }}">Payer</x-a-button>
+                      </div>
+                      
                     </div>
                   </div>
                 </el-dialog-panel>

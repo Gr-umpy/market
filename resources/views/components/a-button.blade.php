@@ -22,8 +22,8 @@
             dark:hover:bg-gray-900 dark:hover:text-gray-200',
     };
 @endphp
-<button {{ $attributes->except(['color'])->merge(
+<a {{ $attributes->except(['color'])->merge(
     ['class' => $classes]) 
     }}>
     {{ $slot }}
-</button>
+</a>
